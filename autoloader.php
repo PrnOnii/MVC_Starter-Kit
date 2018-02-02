@@ -1,27 +1,16 @@
 <?php
-class Autoloader{
 
-    /**
-     * Enregistre notre autoloader
-     */
-    static function register(){
-        spl_autoload_register(array(__CLASS__, 'autoload'));
-    }
-
-    static function includeControllers()
+function models($class) {
+    if(file_exists('model/' . $class . '.php'))
     {
-        foreach (glob("controller/*.php") as $filename)
-        {
-            include $filename;
-        }
+        require_once 'model/' . $class . '.php';
     }
-
-    /**
-     * Inclue le fichier correspondant à notre classe
-     * @param $class string Le nom de la classe à charger
-     */
-    static function autoload($class){
-        require 'model/' . $class . '.php';
-    }
-
 }
+
+function controllers($class) {
+    if(file_exists('controller/' . $class . '.php'))
+        require_once 'controller/' . $class . '.php';
+}
+
+spl_autoload_register('controllers');
+spl_autoload_register('models');
